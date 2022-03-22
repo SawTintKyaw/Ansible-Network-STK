@@ -1,0 +1,10 @@
+---
+lo0_add: 1.1.1.1
+
+connected_network:
+  - network: 14.14.14.0
+    subnet: 0.0.0.3
+  - network: 10.10.10.0
+    subnet: 0.0.0.255
+  - network: 1.1.1.1
+    subnet: 0.0.0.0

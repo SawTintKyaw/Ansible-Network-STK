@@ -1,0 +1,14 @@
+---
+- name: play to restore config
+  hosts: all
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+
+    - name: restore backup config
+      ios_config:
+        src: "backup/{{ inventory_hostname }}.config"
+      
+      
+

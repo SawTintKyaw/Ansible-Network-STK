@@ -1,0 +1,21 @@
+---
+- name: Play to backup cisco config
+  hosts: all
+  gather_facts: false
+  connection: network_cli
+  
+  tasks:
+  - name: task to create back up configuration
+    ios_config:
+      backup: yes
+      backup_options:
+        filename: "{{inventory_hostname}}.config"
+            
+  - name: task to remove none config lines
+    lineinfile:
+      path: "./backup/{{inventory_hostname}}.config"
+      regexp: "^{{ item }}"
+      state: absent
+    loop:
+      - "Building configuration..."
+      - "Current configuration.*"

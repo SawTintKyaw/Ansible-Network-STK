@@ -1,0 +1,12 @@
+---
+lo0_add: 5.5.5.5
+
+connected_network:
+  - network: 192.168.5.0
+    subnet: 0.0.0.255
+  - network: 45.45.45.0
+    subnet: 0.0.0.3
+  - network: 192.168.122.0
+    subnet: 0.0.0.255
+  - network: 5.5.5.5
+    subnet: 0.0.0.0

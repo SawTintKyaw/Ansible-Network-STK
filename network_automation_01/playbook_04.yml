@@ -1,0 +1,15 @@
+---
+- name: Play to Check all interface status
+  hosts: all
+  gather_facts: false
+  connection: network_cli
+  
+  tasks:
+  - name: check all interface status
+    ios_command:
+      commands: 'show ip int brief'
+    register: interface_status
+  - name: Task to print output
+    debug:
+      var: interface_status
+

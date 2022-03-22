@@ -1,0 +1,61 @@
+---
+- name: Playbook for Configure DHCP on R1
+  hosts: R1
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: Task to configure DHCP server for LAN
+      ios_config:
+        lines:
+           - network 192.168.1.0 255.255.255.0
+           - default-router 192.168.1.1
+           - dns-server 8.8.8.8
+           - domain-name example.com
+           - lease 1 0 0
+        parents: ip dhcp pool LAN
+
+    - name: Task to configure DHCP server for LANDMZ-1
+      ios_config:
+        lines:
+          - network 192.168.4.0 255.255.255.0
+          - default-router 192.168.4.1
+          - dns-server 8.8.8.8
+          - domain-name example.com
+          - lease 1 0 0
+        parents: ip dhcp pool DMZ-1
+
+    - name: Task to configure DHCP server for DMZ-2
+      ios_config:
+        lines:
+          - network 192.168.3.0 255.255.255.0
+          - default-router 192.168.3.1
+          - dns-server 8.8.8.8
+          - domain-name example.com
+          - lease 1 0 0
+        parents: ip dhcp pool DMZ-2
+
+    - name: Task to configure excluded address
+      ios_config:
+        lines:
+          - ip dhcp excluded-address 192.168.1.1 192.168.1.20
+          - ip dhcp excluded-address 192.168.3.1 192.168.3.20
+          - ip dhcp excluded-address 192.168.4.1 192.168.4.20
+
+    - name: Task to save configuration
+      ios_config:
+        save_when: modified  
+
+- name: Playbook for Configure DHCP relay on R2 
+  hosts: R2
+  gather_facts: false
+  connection: network_cli 
+
+  tasks:
+    - name: Task to configure DHCP relay for DMZ-1
+      ios_config:
+        lines:
+           - ip helper-address 192.168.2.1
+        parents: int fa0/1
+        save_when: modified
+              

@@ -1,0 +1,13 @@
+---
+- name: Play to Add user
+  hosts: all
+  gather_facts: false
+  connection: network_cli
+  
+  tasks:
+  - name: add admin user to cisco router
+    ios_config:
+      lines:
+        - username admin pri 15 secret admin123
+      save_when: always
+

@@ -1,0 +1,22 @@
+---
+- name: Play to Add user
+  hosts: all
+  gather_facts: false
+  connection: network_cli
+  vars_files:
+    - vars/vars.yml
+  
+  tasks:
+  - name: add users to cisco router
+    ios_user:
+      name: "{{ item.username }}"
+      privilege: " {{ item.privilege | default(15) }}"
+      configured_password: "{{ item.password }}"
+      state: present
+    no_log: true
+    loop: "{{ local_users }}"
+
+  - name: save configuration
+    ios_config:
+      save_when: always
+
